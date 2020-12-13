@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Cineland{% endblock %}</title>
+    </head>
+    <body>
+    	<div id="navigation" >
+    		<hr />
+                <a href="{{ path('cineland_index') }}">Cineland</a> -
+				<a href="{{ path('genre_index') }}">Genre</a> -
+				<a href="{{ path('acteur_index') }}">Acteur</a> -
+				<a href="{{ path('film_index') }}">Film</a> -
+			<hr />
+		</div>
+        {% block body %}{% endblock %}
+    </body>
+</html>

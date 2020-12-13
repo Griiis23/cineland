@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Menu</h1>
+	<ul>
+		<li><a href="{{ path('cineland_init') }}">Initialiser la base de donnée</a></li>
+		<li><a href="{{ path('genre_index') }}">Genre</a></li>
+		<li><a href="{{ path('acteur_index') }}">Acteur</a></li>
+		<li><a href="{{ path('film_index') }}">Film</a></li>
+	
+{% endblock %}

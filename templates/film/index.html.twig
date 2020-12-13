@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste film{% endblock %}
+
+{% block body %}
+    <h1>Liste film</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Duree</th>
+                <th>DateSortie</th>
+                <th>Note</th>
+                <th>AgeMinimal</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{ film.titre }}</td>
+                <td>{{ film.duree }}</td>
+                <td>{{ film.dateSortie ? film.dateSortie|date('d-m-Y') : '' }}</td>
+                <td>{{ film.note }}</td>
+                <td>{{ film.ageMinimal }}</td>
+                <td>
+                    <a href="{{ path('film_show', {'id': film.id}) }}">Voir</a>
+                    <a href="{{ path('film_edit', {'id': film.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun élément trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('film_new') }}">Nouveau film</a>
+{% endblock %}

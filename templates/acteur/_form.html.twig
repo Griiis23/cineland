@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+    <table>
+    <tr>
+    	<td>{{ form_label(form.nomPrenom) }}</td>
+    	<td>{{ form_widget(form.nomPrenom) }}</td>
+    </tr>
+    <tr>
+    	<td>{{ form_label(form.dateNaissance) }}</td>
+    	<td>{{ form_widget(form.dateNaissance) }}</td>
+    </tr>
+    <tr>
+    	<td>{{ form_label(form.nationalite) }}</td>
+    	<td>{{ form_widget(form.nationalite) }}</td>
+    </tr>
+    <tr>
+    	<td>{{ form_label(form.films) }}</td>
+    	<td>{{ form_widget(form.films) }}</td>
+    </tr>
+    </table>
+    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form) }}

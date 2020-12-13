@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste genre{% endblock %}
+
+{% block body %}
+    <h1>Liste genre</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for genre in genres %}
+            <tr>
+                <td>{{ genre.nom }}</td>
+                <td>
+                    <a href="{{ path('genre_show', {'id': genre.id}) }}">Voir</a>
+                    <a href="{{ path('genre_edit', {'id': genre.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun élément trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('genre_new') }}">Nouveau genre</a>
+{% endblock %}

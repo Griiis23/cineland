@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Genre{% endblock %}
+
+{% block body %}
+    <h1>Genre</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ genre.nom }}</td>
+            </tr>
+            <tr>
+                <th>Films</th>
+                <td>
+                    {% for film in genre.films %}
+                        <a href="{{ path('film_show', {'id': film.id}) }}">{{ film }}</a></br>
+                    {% endfor %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('genre_index') }}">Retour à la liste</a>
+
+    <a href="{{ path('genre_edit', {'id': genre.id}) }}">Modifier</a>
+
+    {{ include('genre/_delete_form.html.twig') }}
+{% endblock %}
