@@ -53,7 +53,6 @@ class Film
 
     /**
      * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="films")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $genre;
 

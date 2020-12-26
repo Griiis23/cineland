@@ -84,9 +84,16 @@ class GenreController extends AbstractController
     public function delete(Request $request, Genre $genre): Response
     {
         if ($this->isCsrfTokenValid('delete'.$genre->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($genre);
-            $entityManager->flush();
+            try {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($genre);
+                $entityManager->flush();
+            }
+            catch(\Doctrine\DBAL\DBALException $e){
+                return $this->render('genre/show.html.twig', [
+                    'genre' => $genre,
+                ]);
+            }
         }
 
         return $this->redirectToRoute('genre_index');

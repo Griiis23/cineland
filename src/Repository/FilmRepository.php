@@ -42,6 +42,39 @@ class FilmRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function find2Acteurs($acteur1,$acteur2)
+    {
+        return $this->createQueryBuilder('f')
+            ->join('f.acteurs', 'a1')
+            ->join('f.acteurs', 'a2')
+            ->where('a1 = :acteur1')
+            ->andWhere('a2 = :acteur2')
+            ->setParameter(':acteur1', $acteur1)
+            ->setParameter(':acteur2', $acteur2)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findDureeActeur($acteur)
+    {
+        return $this->createQueryBuilder('f')
+            ->select('f.duree')
+            ->join('f.acteurs', 'a')
+            ->where('a = :acteur')
+            ->setParameter(':acteur', $acteur)
+            ->getQuery()
+            ->getScalarResult();
+    }
+
+    public function findPartieTitre($partie)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.titre LIKE :titre')
+            ->setParameter(':titre', '%'.$partie.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */

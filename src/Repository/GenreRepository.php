@@ -19,6 +19,33 @@ class GenreRepository extends ServiceEntityRepository
         parent::__construct($registry, Genre::class);
     }
 
+    public function findActeur2Films($acteur)
+    {
+        return $this->createQueryBuilder('g')
+            ->join('g.films', 'f')
+            ->join('f.acteurs', 'a')
+            ->where('a = :acteur')
+            ->setParameter(':acteur', $acteur)
+            ->groupBy('g')
+            ->having('COUNT(g) >= 2')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function dureeMoyenne($genre)
+    {
+        return $this->createQueryBuilder('g')
+            ->select('AVG(f.duree)')
+            ->join('g.films', 'f')
+            ->where('g = :genre')
+            ->setParameter(':genre', $genre)
+            ->groupBy('g')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Genre[] Returns an array of Genre objects
     //  */

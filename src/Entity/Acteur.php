@@ -22,7 +22,7 @@ class Acteur
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Regex(pattern="/^[a-zA-Z '.-]*$/",
+     * @Assert\Regex(pattern="/^\w+/",
      * message="Nom non valide.")
      */
     private $nomPrenom;

@@ -11,7 +11,9 @@ use App\Entity\Film;
 use App\Entity\Acteur;
 
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
@@ -168,6 +170,207 @@ class CinelandController extends AbstractController
             	'form' => $form->createView(),
         	]);
     }
+
+    /**
+     * @Route("/action16", name="cineland_action16")
+     */
+    public function action16(Request $request): Response 
+    {
+    	$repo = $this->getDoctrine()->getManager()->getRepository(Acteur::class);
+    		$acteurs = $repo->auMoins3Films();
+
+
+    	return $this->render('cineland/action.html.twig', [
+        		'resultats' => $acteurs,
+        	]);
+    }
+
+    /**
+     * @Route("/action17", name="cineland_action17")
+     */
+    public function action17(Request $request): Response 
+    {
+    	$form = $this->createFormBuilder()
+    		->add('Acteur1',EntityType::class, array('class' => Acteur::class ) )
+    		->add('Acteur2',EntityType::class, array('class' => Acteur::class ) )
+    		->add('Recherche',SubmitType::class)
+    		->getForm();
+    	$form->handleRequest($request);
+
+    	if ($form->isSubmitted()) {
+    		$data = $form->getData();
+            $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
+    		$films = $repo->find2Acteurs($data['Acteur1'],$data['Acteur2']);
+    		return $this->render('cineland/action.html.twig', [
+            		'resultats' => $films,
+            		'form' => $form->createView(),
+        		]);
+        }
+        return $this->render('cineland/action.html.twig', [
+        		'resultats' => array(),
+            	'form' => $form->createView(),
+        	]);
+    }
+
+    /**
+     * @Route("/action18", name="cineland_action18")
+     */
+    public function action18(Request $request): Response 
+    {
+    	$form = $this->createFormBuilder()
+    		->add('Acteur',EntityType::class, array('class' => Acteur::class ) )
+    		->add('Recherche',SubmitType::class)
+    		->getForm();
+    	$form->handleRequest($request);
+
+    	if ($form->isSubmitted()) {
+    		$data = $form->getData();
+            $repo = $this->getDoctrine()->getManager()->getRepository(Genre::class);
+    		$genres = $repo->findActeur2Films($data['Acteur']);
+    		return $this->render('cineland/action.html.twig', [
+            		'resultats' => $genres,
+            		'form' => $form->createView(),
+        		]);
+        }
+        return $this->render('cineland/action.html.twig', [
+        		'resultats' => array(),
+            	'form' => $form->createView(),
+        	]);
+    }
+
+    /**
+     * @Route("/action19", name="cineland_action19")
+     */
+    public function action19(Request $request): Response 
+    {
+    	$form = $this->createFormBuilder()
+    		->add('Acteur',EntityType::class, array('class' => Acteur::class ) )
+    		->add('Recherche',SubmitType::class)
+    		->getForm();
+    	$form->handleRequest($request);
+
+    	if ($form->isSubmitted()) {
+    		$data = $form->getData();
+            $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
+    		$resultats = $repo->findDureeActeur($data['Acteur']);
+
+    		return $this->render('cineland/actionScalar.html.twig', [
+            		'resultats' => $resultats,
+            		'form' => $form->createView(),
+        		]);
+        }
+        return $this->render('cineland/action.html.twig', [
+        		'resultats' => array(),
+            	'form' => $form->createView(),
+        	]);
+    }
+
+    /**
+     * @Route("/action20", name="cineland_action20")
+     */
+    public function action20(): Response 
+    {
+        $repo = $this->getDoctrine()->getManager()->getRepository(Acteur::class);
+    	$resultats = $repo->listeFilms();
+       	
+       	return $this->render('cineland/actionScalar.html.twig', [
+        		'resultats' => $resultats,
+        	]);
+    }
+
+    /**
+     * @Route("/action21", name="cineland_action21")
+     */
+    public function action21(): Response 
+    {
+        $repo = $this->getDoctrine()->getManager()->getRepository(Acteur::class);
+    	$resultats = $repo->listeGenres();
+       	
+       	return $this->render('cineland/actionScalar.html.twig', [
+        		'resultats' => $resultats,
+        	]);
+    }
+
+    /**
+     * @Route("/action22", name="cineland_action22")
+     */
+    public function action22(Request $request): Response 
+    {
+        $form = $this->createFormBuilder()
+    		->add('Genre',EntityType::class, array('class' => Genre::class ) )
+    		->add('Recherche',SubmitType::class)
+    		->getForm();
+    	$form->handleRequest($request);
+       	
+       	if ($form->isSubmitted()) {
+    		$data = $form->getData();
+            $repo = $this->getDoctrine()->getManager()->getRepository(Genre::class);
+    		$resultats = $repo->dureeMoyenne($data['Genre']);
+
+    		return $this->render('cineland/actionScalar.html.twig', [
+            		'resultats' => $resultats,
+            		'form' => $form->createView(),
+        		]);
+        }
+        return $this->render('cineland/action.html.twig', [
+        		'resultats' => array(),
+            	'form' => $form->createView(),
+        	]);
+    }
+
+    /**
+     * @Route("/action23", name="cineland_action23")
+     */
+    public function action23(Request $request): Response 
+    {
+        $form = $this->createFormBuilder()
+    		->add('Genre',EntityType::class, array('class' => Genre::class ) )
+    		->add('Diminuer',SubmitType::class)
+    		->add('Augmenter',SubmitType::class)
+    		->getForm();
+    	$form->handleRequest($request);
+       	
+       	if ($form->isSubmitted()) {
+    		if($form->getClickedButton()->getName() == 'Augmenter') {
+    			echo '1';
+    		} else {
+    			echo '2';
+    		}
+        }
+        return $this->render('cineland/action.html.twig', [
+        		'resultats' => array(),
+            	'form' => $form->createView(),
+        	]);
+    }
+
+    /**
+     * @Route("/action25", name="cineland_action25")
+     */
+    public function action25(Request $request): Response 
+    {
+        $form = $this->createFormBuilder()
+    		->add('Partie',TextType::class)
+    		->add('Recherche',SubmitType::class)
+    		->getForm();
+    	$form->handleRequest($request);
+       	
+       	if ($form->isSubmitted()) {
+    		$data = $form->getData();
+            $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
+    		$resultats = $repo->findPartieTitre($data['Partie']);
+
+    		return $this->render('cineland/action.html.twig', [
+            		'resultats' => $resultats,
+            		'form' => $form->createView(),
+        		]);
+        }
+        return $this->render('cineland/action.html.twig', [
+        		'resultats' => array(),
+            	'form' => $form->createView(),
+        	]);
+    }
+
+
 
 
 

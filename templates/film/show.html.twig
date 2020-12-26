@@ -28,6 +28,13 @@
                 <td>{{ film.ageMinimal }}</td>
             </tr>
             <tr>
+                <th>Genre</th>
+                <td>
+                    <a href="{{ path('genre_show', {'id': film.genre.id}) }}">{{ film.genre }}</a></br>
+
+                </td>
+            </tr>
+            <tr>
                 <th>Acteurs</th>
                 <td>
                     {% for acteur in film.acteurs %}

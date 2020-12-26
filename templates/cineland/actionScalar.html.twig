@@ -7,12 +7,14 @@
     {% if form is defined %}
         {{ form(form) }}
     {% endif %}
-    
+
     <table class="table">
         <tbody>
         {% for resultat in resultats %}
             <tr>
-                <td>{{ resultat }}</td>
+            {% for col in resultat %}
+                <td>{{ col }}</td>
+            {% endfor %}
             </tr>
         {% else %}
             <tr>

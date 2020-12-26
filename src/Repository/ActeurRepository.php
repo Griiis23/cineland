@@ -47,4 +47,42 @@ class ActeurRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function auMoins3Films()
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.films', 'f')
+            ->groupBy('a')
+            ->having('COUNT(f) >= 3')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
+    public function listeFilms()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.nomPrenom','f.titre')
+            ->join('a.films', 'f')
+            ->orderBy('f.dateSortie','asc')
+            ->orderBy('a.nomPrenom','asc')
+            ->getQuery()
+            ->getScalarResult()
+        ;
+    }
+
+    public function listeGenres()
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a.nomPrenom','g.nom')
+            ->join('a.films', 'f')
+            ->join('f.genre','g')
+            ->orderBy('a.nomPrenom','asc')
+            ->getQuery()
+            ->getScalarResult()
+        ;
+    }
+
+
+
 }
