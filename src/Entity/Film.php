@@ -46,13 +46,14 @@ class Film
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Positive(
+     * @Assert\PositiveOrZero(
      * message="Age minimal non valide.")
      */
     private $ageMinimal;
 
     /**
      * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="films")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $genre;
 

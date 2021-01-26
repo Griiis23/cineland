@@ -58,7 +58,7 @@ class FilmRepository extends ServiceEntityRepository
     public function findDureeActeur($acteur)
     {
         return $this->createQueryBuilder('f')
-            ->select('f.duree')
+            ->select('f.titre','f.duree')
             ->join('f.acteurs', 'a')
             ->where('a = :acteur')
             ->setParameter(':acteur', $acteur)
@@ -75,6 +75,27 @@ class FilmRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function augmenterAgeMin($acteur,$age): array
+    {
+        $queryBuilder = $this->createQueryBuilder('f')
+                ->select('f.titre')
+                ->join("f.acteurs","a")
+                ->where('a = :acteur')
+                ->setParameter('acteur',$acteur)
+                ->getQuery()
+                ->getResult();
+            foreach ($queryBuilder as $key => $titre) {
+                $query = $this->getEntityManager()->createQuery("UPDATE App\Entity\Film f SET f.ageMinimal = f.ageMinimal + :age where f.titre LIKE :titre")
+                    ->setParameter('age',$age)
+                    ->setParameter('titre',$titre);
+                      
+                $result = $query->execute();
+            } 
+        return $queryBuilder;
+    }
+
+    
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */

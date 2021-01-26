@@ -1,24 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Résultat{% endblock %}
+{% block title %}Action{% endblock %}
 
 {% block body %}
     <h1>Action</h1>
     {% if form is defined %}
         {{ form(form) }}
     {% endif %}
-    
-    <table class="table">
-        <tbody>
-        {% for resultat in resultats %}
-            <tr>
-                <td>{{ resultat }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="1">Aucun élément trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}

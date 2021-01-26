@@ -1,12 +1,7 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Résultat{% endblock %}
+{% extends 'cineland/action.html.twig' %}
 
 {% block body %}
-    <h1>Action</h1>
-    {% if form is defined %}
-        {{ form(form) }}
-    {% endif %}
+    {{ parent() }}
 
     <table class="table">
         <tbody>

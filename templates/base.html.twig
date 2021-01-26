@@ -1,18 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Cineland{% endblock %}</title>
-    </head>
-    <body>
-    	<div id="navigation" >
-    		<hr />
-                <a href="{{ path('cineland_index') }}">Cineland</a> -
-				<a href="{{ path('genre_index') }}">Genre</a> -
-				<a href="{{ path('acteur_index') }}">Acteur</a> -
-				<a href="{{ path('film_index') }}">Film</a> -
-			<hr />
-		</div>
-        {% block body %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Cineland{% endblock %}</title>
+</head>
+
+<style type="text/css">
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    button {
+      padding: 8px 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input, select {
+      padding: 8px 10px;
+      margin: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    td, th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+</style>
+
+<body>
+   <div id="navigation" >
+      <hr />
+      <a href="{{ path('cineland_index') }}">Cineland</a> -
+      <a href="{{ path('genre_index') }}">Genre</a> -
+      <a href="{{ path('acteur_index') }}">Acteur</a> -
+      <a href="{{ path('film_index') }}">Film</a> -
+      <hr />
+  </div>
+  {% block body %}{% endblock %}
+</body>
 </html>

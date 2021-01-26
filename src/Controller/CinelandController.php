@@ -134,13 +134,12 @@ class CinelandController extends AbstractController
     		$data = $form->getData();
             $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
     		$films = $repo->findEntreAnnees($data['annee1'],$data['annee2']);
-    		return $this->render('cineland/action.html.twig', [
+    		return $this->render('cineland/actionObjet.html.twig', [
             		'resultats' => $films,
             		'form' => $form->createView(),
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -160,13 +159,12 @@ class CinelandController extends AbstractController
     		$data = $form->getData();
             $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
     		$films = $repo->findAnterieureDate($data['date']);
-    		return $this->render('cineland/action.html.twig', [
+    		return $this->render('cineland/actionObjet.html.twig', [
             		'resultats' => $films,
             		'form' => $form->createView(),
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -180,7 +178,7 @@ class CinelandController extends AbstractController
     		$acteurs = $repo->auMoins3Films();
 
 
-    	return $this->render('cineland/action.html.twig', [
+    	return $this->render('cineland/actionObjet.html.twig', [
         		'resultats' => $acteurs,
         	]);
     }
@@ -201,13 +199,12 @@ class CinelandController extends AbstractController
     		$data = $form->getData();
             $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
     		$films = $repo->find2Acteurs($data['Acteur1'],$data['Acteur2']);
-    		return $this->render('cineland/action.html.twig', [
+    		return $this->render('cineland/actionObjet.html.twig', [
             		'resultats' => $films,
             		'form' => $form->createView(),
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -227,13 +224,12 @@ class CinelandController extends AbstractController
     		$data = $form->getData();
             $repo = $this->getDoctrine()->getManager()->getRepository(Genre::class);
     		$genres = $repo->findActeur2Films($data['Acteur']);
-    		return $this->render('cineland/action.html.twig', [
+    		return $this->render('cineland/actionObjet.html.twig', [
             		'resultats' => $genres,
             		'form' => $form->createView(),
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -260,7 +256,6 @@ class CinelandController extends AbstractController
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -313,7 +308,6 @@ class CinelandController extends AbstractController
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -324,21 +318,28 @@ class CinelandController extends AbstractController
     public function action23(Request $request): Response 
     {
         $form = $this->createFormBuilder()
-    		->add('Genre',EntityType::class, array('class' => Genre::class ) )
+    		->add('Film',EntityType::class, array('class' => Film::class ) )
     		->add('Diminuer',SubmitType::class)
     		->add('Augmenter',SubmitType::class)
     		->getForm();
     	$form->handleRequest($request);
        	
        	if ($form->isSubmitted()) {
+       		$em = $this->getDoctrine()->getManager(); 
+
+       		$data = $form->getData();
+    		$film = $data['Film'];
+
     		if($form->getClickedButton()->getName() == 'Augmenter') {
-    			echo '1';
+    			$film->setNote($film->getNote()+1);
     		} else {
-    			echo '2';
+    			$film->setNote($film->getNote()-1);
     		}
+
+    		$em->flush();
+
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
             	'form' => $form->createView(),
         	]);
     }
@@ -359,17 +360,45 @@ class CinelandController extends AbstractController
             $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
     		$resultats = $repo->findPartieTitre($data['Partie']);
 
-    		return $this->render('cineland/action.html.twig', [
+    		return $this->render('cineland/actionObjet.html.twig', [
             		'resultats' => $resultats,
             		'form' => $form->createView(),
         		]);
         }
         return $this->render('cineland/action.html.twig', [
-        		'resultats' => array(),
-            	'form' => $form->createView(),
-        	]);
+                'form' => $form->createView(),
+            ]);   
     }
 
+    /**
+     * @Route("/action26", name="cineland_action26")
+     */
+    public function action26(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $form = $this->createFormBuilder()
+            ->add('acteur',EntityType::class, array('class' => Acteur::class ) )
+            ->add('choixdunombre',IntegerType::class,['required'   => false, 'empty_data' => '1', ])
+            ->add('Ajouter',SubmitType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted())
+        {
+            $repo = $this->getDoctrine()->getManager()->getRepository(Film::class);
+            $age = $form->get('choixdunombre')->getData();
+            $acteur = $form->get('acteur')->getData();
+            $queryBuilder = $repo->augmenterAgeMin($acteur,$age);
+            return $this->render('cineland/action.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+
+        }
+         
+         return $this->render('cineland/action.html.twig', [
+                'form' => $form->createView(),
+            ]);   
+    }
 
 
 

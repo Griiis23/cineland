@@ -1,0 +1,19 @@
+{% extends 'cineland/action.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    
+    <table class="table">
+        <tbody>
+        {% for resultat in resultats %}
+            <tr>
+                <td>{{ resultat }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="1">Aucun élément trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
